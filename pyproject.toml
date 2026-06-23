@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mem0shield"
+version = "0.1.0"
+description = "Memory poisoning defense layer for Mem0 — detects and neutralizes adversarial inputs targeting AI agent memory stores."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+keywords = ["mem0", "memory", "security", "ai", "agents", "poisoning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "mem0ai>=0.1.0",
+    "sentence-transformers>=3.0.0",
+    "numpy>=1.26.0",
+    "openai>=1.0.0",
+    "typer>=0.12.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+    "pytest-asyncio>=0.23.0",
+]
+
+[project.scripts]
+mem0shield-demo = "cli.demo:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["mem0shield", "cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["mem0shield"]
+omit = ["tests/*", "cli/*", "examples/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 85
